@@ -1,0 +1,46 @@
+---
+title: "Analysing local authority carbon emissions"
+output: html_notebook
+---
+
+# Task
+
+Understanding how carbon emissions in local authorities has changed since 2005.
+
+# Data sources
+
+https://www.gov.uk/government/statistics/uk-local-authority-and-regional-carbon-dioxide-emissions-national-statistics-2005-to-2019
+
+# Data preparation and processing
+
+# Analysis
+
+```{r}
+library(tidyverse)  #helps wrangle data
+library(ggplot2)  #helps visualize data
+```
+
+Load data:
+
+```{r}
+rawcarbon <- read_csv("csv/2005-19_Local_Authority_CO2_emissions.csv")
+```
+
+```{r}
+tmpcarbon <- rawcarbon %>% 
+  group_by(`Local Authority Code`, `Calendar Year`) %>% 
+  summarise(Total = sum(`Territorial emissions (kt CO2)`, na.rm = TRUE))
+
+```
+```{r}
+
+library("reshape2")
+carbonWide <- dcast(tmpcarbon, `Local Authority Code` ~ `Calendar Year`, value.var="Total")
+```
+
+# TODO 
+
+Validate sum in carbonWide
+Include Local Authority Name in wide data for labelling
+Plot trend graph for all 
+Plot summary for specific's 
