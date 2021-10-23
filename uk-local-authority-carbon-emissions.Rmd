@@ -27,6 +27,15 @@ rawcarbon <- read_csv("csv/2005-19_Local_Authority_CO2_emissions.csv")
 ```
 
 ```{r}
+# Let's start by picking out a single region, York
+singleregion <- filter(rawcarbon, `Local Authority Code` == 'E06000014')
+# Then let's check what years are in our dataset
+unique(singleregion$`Calendar Year`)
+```
+
+# TODO: just graph York, then graph the average of all? Or a big line graph again? Or a stacked bar?
+
+```{r}
 tmpcarbon <- rawcarbon %>% 
   group_by(`Local Authority Code`, `Calendar Year`) %>% 
   summarise(Total = sum(`Territorial emissions (kt CO2)`, na.rm = TRUE))
@@ -40,7 +49,7 @@ carbonWide <- dcast(tmpcarbon, `Local Authority Code` ~ `Calendar Year`, value.v
 
 # TODO 
 
-Validate sum in carbonWide
-Include Local Authority Name in wide data for labelling
-Plot trend graph for all 
-Plot summary for specific's 
+ * Validate sum in carbonWide
+ * Include Local Authority Name in wide data for labelling
+ * Plot trend graph for all
+ * Plot summary for specific's
