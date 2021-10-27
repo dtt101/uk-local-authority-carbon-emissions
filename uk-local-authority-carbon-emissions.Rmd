@@ -33,13 +33,33 @@ singleregion <- filter(rawcarbon, `Local Authority Code` == 'E06000014')
 unique(singleregion$`Calendar Year`)
 ```
 
-# TODO: just graph York, then graph the average of all? Or a big line graph again? Or a stacked bar?
+# Let's summarise by total emmission per year across all categories
+```{r}
+singleregionsummary <- singleregion %>%
+  group_by(`Calendar Year`) %>%
+  summarise(Total = sum(`Territorial emissions (kt CO2)`, na.rm = TRUE))
+```
+
+# Confirm the summary total matches the original dataset
+```{r}
+test <- singleregion %>% 
+  filter(`Calendar Year` == '2005') 
+sum(test$`Territorial emissions (kt CO2)`)
+```
+
+```{r}
+ggplot(singleregionsummary, aes(x = `Calendar Year`, y = Total)) + 
+  geom_line(aes(), size = 1)  + 
+  theme_minimal() + 
+  xlab("Year") + ylab("Territorial emissions (kt CO2)")
+```
+
+# TODO: next I need to do the line graph for a single region but show the change per territorial emissions group
 
 ```{r}
 tmpcarbon <- rawcarbon %>% 
   group_by(`Local Authority Code`, `Calendar Year`) %>% 
   summarise(Total = sum(`Territorial emissions (kt CO2)`, na.rm = TRUE))
-
 ```
 ```{r}
 
