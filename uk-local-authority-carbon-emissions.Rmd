@@ -31,23 +31,17 @@ rawcarbon <- read_csv("csv/2005-19_Local_Authority_CO2_emissions.csv")
 singleregion <- filter(rawcarbon, `Local Authority Code` == 'E06000014')
 # Then let's check what years are in our dataset
 unique(singleregion$`Calendar Year`)
+# Visual check that summary total matches original dataset
+test <- singleregion %>% 
+  filter(`Calendar Year` == '2005') 
+sum(test$`Territorial emissions (kt CO2)`) 
 ```
 
-# Let's summarise by total emmission per year across all categories
+# Let's summarise by total emmission per year across all categories for one LA
 ```{r}
 singleregionsummary <- singleregion %>%
   group_by(`Calendar Year`) %>%
   summarise(Total = sum(`Territorial emissions (kt CO2)`, na.rm = TRUE))
-```
-
-# Confirm the summary total matches the original dataset
-```{r}
-test <- singleregion %>% 
-  filter(`Calendar Year` == '2005') 
-sum(test$`Territorial emissions (kt CO2)`)
-```
-
-```{r}
 ggplot(singleregionsummary, aes(x = `Calendar Year`, y = Total)) + 
   geom_line(aes(), size = 1)  + 
   theme_minimal() + 
@@ -55,6 +49,8 @@ ggplot(singleregionsummary, aes(x = `Calendar Year`, y = Total)) +
 ```
 
 # TODO: next I need to do the line graph for a single region but show the change per territorial emissions group
+
+# TODO - all councils summary
 
 ```{r}
 tmpcarbon <- rawcarbon %>% 
@@ -72,4 +68,3 @@ carbonWide <- dcast(tmpcarbon, `Local Authority Code` ~ `Calendar Year`, value.v
  * Validate sum in carbonWide
  * Include Local Authority Name in wide data for labelling
  * Plot trend graph for all
- * Plot summary for specific's
