@@ -37,8 +37,8 @@ test <- singleregion %>%
 sum(test$`Territorial emissions (kt CO2)`) 
 ```
 
-# Let's summarise by total emmission per year across all categories for one LA
 ```{r}
+# Let's summarise by total emmission per year across all categories for one LA
 singleregionsummary <- singleregion %>%
   group_by(`Calendar Year`) %>%
   summarise(Total = sum(`Territorial emissions (kt CO2)`, na.rm = TRUE))
@@ -47,8 +47,6 @@ ggplot(singleregionsummary, aes(x = `Calendar Year`, y = Total)) +
   theme_minimal() + 
   xlab("Year") + ylab("Territorial emissions (kt CO2)")
 ```
-
-# TODO: next I need to do the line graph for a single region but show the change per territorial emissions group
 
 # TODO - all councils summary
 
@@ -62,9 +60,8 @@ tmpcarbon <- rawcarbon %>%
 library("reshape2")
 carbonWide <- dcast(tmpcarbon, `Local Authority Code` ~ `Calendar Year`, value.var="Total")
 ```
+ 
+# IDEAS
 
-# TODO 
-
- * Validate sum in carbonWide
- * Include Local Authority Name in wide data for labelling
+ * A line graph for a single region but show the change per territorial emissions group
  * Plot trend graph for all
